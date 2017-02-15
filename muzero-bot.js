@@ -37,11 +37,11 @@ MuzeroBot.prototype._welcomeMessage = function () {
 };
 
 MuzeroBot.prototype._onMessage = function (message) {
-    console.log(message);
-    console.log(this._isChatMessage(message));
-    console.log(this._isChannelConversation(message));
-
-
+    console.log('message.type ->');
+    if (message.type === 'presence_change') {
+        console.log(message);
+    }
+    
     if (this._isChatMessage(message) &&
         this._isChannelConversation(message) &&
         !this._isFromMuzeroBot(message) &&
