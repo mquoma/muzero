@@ -1,0 +1,25 @@
+{
+  "name": "muzero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mquoma/muzero.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mquoma/muzero/issues"
+  },
+  "homepage": "https://github.com/mquoma/muzero#readme",
+  "dependencies": {
+    "slackbots": "^1.0.2"
+  },
+  "devDependencies": {
+    "slackbots": "^1.0.2"
+  }
+}
