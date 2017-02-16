@@ -5,7 +5,7 @@ const controller = Botkit.slackbot();
 const repo = require('./repo')();
 
 const proc = controller.spawn({
-	  token: process.env.SLACK_TOKEN || ''
+	  token: process.env.SLACK_TOKEN || 'xoxb-141716574341-BinMV0CPTiG6ZHjIS3x4VE7A'
 }).startRTM((err, bot, payload) => {
 	if (err) {
  	   console.log(err);
@@ -110,15 +110,14 @@ controller.hears('take (.*) days off starting on (.*)', ['direct_message', 'dire
 											if (response.user) {
 												bot.reply(msg, 'Let us notify the boss: ' + appendMention(response.user.name));
 											}
-										})
+										});
 									}
-								})
-								
+								});
 							}
-						})
+						});
 					}
 				}
-			})
+			});
 
 	    } else {
 	        bot.reply(msg, 'Hello? Your identity cannot be verified.');
