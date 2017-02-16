@@ -43,6 +43,13 @@ controller.hears('ProjectId (.*)', ['direct_message', 'direct_mention'], (bot, m
   });
 });
 
+
+controller.on(['direct_message', 'direct_mention'], (bot, msg) => {
+
+  console.log('tracing', msg);
+
+});
+
 // Get Remaining Vacation Days Left
 controller.hears(['Vacation', 'Avail'], ['direct_message', 'direct_mention'], (bot, msg) => {
 
@@ -73,7 +80,7 @@ controller.hears('take (.*) days off starting on (.*)', ['direct_message', 'dire
 	  var day = msg.match[2];
 
 	  bot.api.users.info({user: msg.user}, (error, response) => {
-
+	  	
 	    if (response.user && response.user.real_name) {
 
 			repo.getUserDaysLeft(msg.user, function(err, results) {
@@ -86,7 +93,13 @@ controller.hears('take (.*) days off starting on (.*)', ['direct_message', 'dire
 					} else {
 						repo.requestDaysOff(msg.user, day, numDays, function(err, results) {
 							if(!err) {
-								bot.reply(msg, 'OK ' + response.user.name + '.  That request has been submitted.');
+								repo.getBoss(msg.user, function(err, results) {
+									if(!err) {
+										var director = results[0].Director;
+										bot.reply(msg, 'OK ' + response.user.name + '.  That request has been submitted. Let us notify the boss: ' + director);
+									}
+								})
+								
 							}
 						})
 					}

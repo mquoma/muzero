@@ -30,6 +30,21 @@ var repo = function () {
             return executeQuery(sql, params, cb);
         },
 
+        getBoss: function (user, cb) {
+
+            var sql = 'SELECT TOP 1 D.UserId AS Director FROM muzero..Directors D JOIN muzero..Users U on U.Department = D.Department AND U.UserId = @UserId';
+            var params = [{
+                name: 'UserId',
+                type: mssql.VarChar(255),
+                value: user
+            }];
+
+            console.log(sql);
+            console.log(params);
+
+            return executeQuery(sql, params, cb);
+        },
+
         requestDaysOff: function (user, day, numDays, cb) {
 
             var sql = 'INSERT INTO muzero..Requests (UserId, DateRequested, NumDays, RequestStatus) ' +
@@ -59,8 +74,6 @@ var repo = function () {
 
     }
 }
-
-
 
 module.exports = repo;
 
