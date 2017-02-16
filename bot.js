@@ -3,7 +3,7 @@ const Botkit = require('botkit');
 const controller = Botkit.slackbot();
 
 const proc = controller.spawn({
-	  token: process.env.SLACK_TOKEN || 'xoxb-141716574341-fJse3NfJOTRvvEOpZuv8kgl2'
+	  token: process.env.SLACK_TOKEN || ''
 });
 
 proc.startRTM((err, bot, payload) => {
@@ -46,7 +46,7 @@ controller.hears('ProjectId (.*)', ['direct_message', 'direct_mention'], (bot, m
   bot.api.users.info({user: msg.user}, (error, response) => {
 
     if (response.user && response.user.real_name) {
-        bot.reply(msg, 'Hello ' + response.user.real_name + '.   Let us talk about Project Ids');
+        bot.reply(msg, 'Hello ' + response.user.real_name + '.   Let us talk about Project Id ' + projectId);
     } else {
         bot.reply(msg, 'Hello.  ProjectIds');
     }
