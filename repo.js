@@ -32,11 +32,24 @@ var repo = function () {
 
         requestDaysOff: function (user, day, numDays, cb) {
 
-            var sql = 'SELECT TOP 1 DaysAvail from muzero..Users WHERE UserId = @UserId';
+            var sql = 'INSERT INTO muzero..Requests (UserId, DateRequested, NumDays, RequestStatus) ' +
+                'VALUES (@UserId, @DateRequested, @NumDays, @RequestStatus)';
             var params = [{
                 name: 'UserId',
                 type: mssql.VarChar(255),
                 value: user
+            }, {
+                name: 'DateRequested',
+                type: mssql.VarChar(255),
+                value: day
+            }, {
+                name: 'NumDays',
+                type: mssql.Int,
+                value: numDays
+            },{
+                name: 'RequestStatus',
+                type: mssql.VarChar(255),
+                value: 'PENDING'
             }];
 
             return executeQuery(sql, params, cb);
@@ -59,6 +72,7 @@ function executeQuery(sql, params, cb) {
 
         for (var p in params) {
             request.input(params[p].name, params[p].type, params[p].value);
+
             console.log('params[p].name, params[p].type, params[p].value');
             console.log(params[p].name, params[p].type, params[p].value);
         }
