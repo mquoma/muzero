@@ -39,9 +39,6 @@ var repo = function () {
                 value: user
             }];
 
-            console.log(sql);
-            console.log(params);
-
             return executeQuery(sql, params, cb);
         },
 
@@ -85,9 +82,6 @@ function executeQuery(sql, params, cb) {
 
         for (var p in params) {
             request.input(params[p].name, params[p].type, params[p].value);
-
-            console.log('params[p].name, params[p].type, params[p].value');
-            console.log(params[p].name, params[p].type, params[p].value);
         }
         
 

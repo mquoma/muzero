@@ -5,7 +5,7 @@ const controller = Botkit.slackbot();
 const repo = require('./repo')();
 
 const proc = controller.spawn({
-	  token: process.env.SLACK_TOKEN || 'xoxb-141716574341-BinMV0CPTiG6ZHjIS3x4VE7A'
+	  token: process.env.SLACK_TOKEN || ''
 }).startRTM((err, bot, payload) => {
 	if (err) {
  	   console.log(err);
@@ -15,6 +15,11 @@ const proc = controller.spawn({
     	console.log('Ready...')
   }
 });
+
+
+function appendMention (name) {
+	return name.split()[0] != '@' ? '@' + name : name;
+}
 
 // Get Project Name
 controller.hears('ProjectId (.*)', ['direct_message', 'direct_mention'], (bot, msg) => {
@@ -51,7 +56,7 @@ controller.on(['direct_message', 'direct_mention'], (bot, msg) => {
 });
 
 // Get Remaining Vacation Days Left
-controller.hears(['Vacation', 'Avail'], ['direct_message', 'direct_mention'], (bot, msg) => {
+controller.hears('Vacation (.*) avail', ['direct_message', 'direct_mention'], (bot, msg) => {
 
   bot.api.users.info({user: msg.user}, (error, response) => {
 
@@ -59,7 +64,7 @@ controller.hears(['Vacation', 'Avail'], ['direct_message', 'direct_mention'], (b
     
 		repo.getUserDaysLeft(msg.user, function(err, results) {
 			if(!err) {
-				bot.reply(msg, 'Hello ' + response.user.real_name + '. You have ' + results[0].DaysAvail + ' vacation days available this year.');
+				bot.reply(msg, 'Hello ' + appendMention(response.user.name) + '. You have ' + results[0].DaysAvail + ' vacation days available this year.');
 			}
 			else {
 				console.log(err);
@@ -80,14 +85,12 @@ controller.hears('take (.*) days off starting on (.*)', ['direct_message', 'dire
 	  var day = msg.match[2];
 
 	  bot.api.users.info({user: msg.user}, (error, response) => {
-	  	
+
 	    if (response.user && response.user.real_name) {
 
 			repo.getUserDaysLeft(msg.user, function(err, results) {
 				if(!err) {
-
 					var daysLeft = results[0].DaysAvail;
-
 					if (daysLeft < numDays) {
 						bot.reply(msg, 'Get real,  ' + response.user.real_name + '. You only have ' + daysLeft + ' vacation days left.');
 					} else {
@@ -95,8 +98,19 @@ controller.hears('take (.*) days off starting on (.*)', ['direct_message', 'dire
 							if(!err) {
 								repo.getBoss(msg.user, function(err, results) {
 									if(!err) {
+										bot.reply(msg, 'OK ' + appendMention(response.user.name) + '.' + 
+										'That request has been submitted. ');
+
 										var director = results[0].Director;
-										bot.reply(msg, 'OK ' + response.user.name + '.  That request has been submitted. Let us notify the boss: ' + director);
+
+										console.log('director', director);
+
+										bot.api.users.info( {user: director}, (error, response) => {
+											console.log(response);
+											if (response.user) {
+												bot.reply(msg, 'Let us notify the boss: ' + appendMention(response.user.name));
+											}
+										})
 									}
 								})
 								
