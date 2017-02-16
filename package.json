@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mquoma/muzero#readme",
   "dependencies": {
+    "botkit": "^0.5.0",
     "slackbot": "0.0.2",
     "slackbots": "^1.0.2"
   },
