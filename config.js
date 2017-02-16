@@ -1,8 +1,8 @@
 var config = {
-    user: process.env.USER || 'sasql',
-    password: process.env.PASSWORD || '#Lockbox45!',
-    server: process.env.SERVER || 'DEVSQL1',
-    database: process.env.DATABASE || 'ts',
+    user: process.env.USER || '',
+    password: process.env.PASSWORD || '',
+    server: process.env.SERVER || '',
+    database: process.env.DATABASE || '',
     options: {
         instanceName: process.env.OPTIONS_INSTANCE_NAME || 'trunk',
         connectTimeout: process.env.OPTIONS_CONNECT_TIMEOUT || 3000
